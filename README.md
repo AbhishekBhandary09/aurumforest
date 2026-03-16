@@ -5,7 +5,7 @@
 A high-fidelity luxury travel landing page with an immersive 3D globe, AI concierge, Golden Hour theming, animated flight arcs, and magnetic UI.
  
 ## ✦ Live Demo
-**https://YOUR_USERNAME.github.io/aurumforest/**
+**https://AbhishekBhandary09.github.io/aurumforest/**
  
 ## ✦ Features
 | Feature | Tech |
