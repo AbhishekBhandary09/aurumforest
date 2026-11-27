@@ -68,7 +68,7 @@
     btn.id='clear-key-btn';
     btn.title='Clear saved API key';
     btn.innerHTML='🗑 Clear Key';
-    btn.style.cssText='position:fixed;bottom:104px;left:36px;z-index:2001;'+
+    btn.style.cssText='position:static;margin-right:10px;padding:4px 9px;font-size:.6rem;'+
       'background:rgba(20,32,20,.85);border:1px solid var(--glass-border);'+
       'color:var(--slate);font-size:.65rem;letter-spacing:.1em;padding:7px 14px;'+
       'cursor:pointer;transition:all .2s;backdrop-filter:blur(8px);font-family:"DM Sans",sans-serif';
@@ -82,7 +82,7 @@
       addMsg('API key cleared. Enter a new key to continue.','assistant');
       showKeyPrompt();
     });
-    document.body.appendChild(btn);
+    const hdr=panel.querySelector(".c-head")||closeBtn.parentElement;if(hdr)hdr.insertBefore(btn,closeBtn);
   }
 
   const SYS=`You are AurumForest Concierge, the AI travel planner for AurumForest — an ultra-luxury travel company. You craft exquisite, highly personalised travel itineraries.

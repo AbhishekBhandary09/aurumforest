@@ -12,3 +12,33 @@
 #time-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--gold); box-shadow:0 0 8px var(--gold); animation:badgePulse 2s infinite; }
 @keyframes badgePulse{0%,100%{opacity:1}50%{opacity:.4}}
 @keyframes fadeIn{to{opacity:1}}
+
+#time-badge {
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.25s ease, border-color 0.25s ease, background 0.4s ease;
+}
+#time-badge:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold);
+}
+
+#time-badge {
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.25s ease, border-color 0.25s ease, background 0.4s ease;
+}
+#time-badge:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold);
+}
+
+#time-badge {
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.25s ease, border-color 0.25s ease, background 0.4s ease;
+}
+#time-badge:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold);
+}
