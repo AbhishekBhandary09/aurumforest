@@ -37,7 +37,7 @@
         </button>
       </div>
       <p style="font-size:.68rem;color:var(--slate);margin-top:8px">
-        Your key never leaves your device. Click 🗑 below to clear it anytime.
+        Your key never leaves your device. 
       </p>`;
     msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight;
     const ki=document.getElementById('key-input');
@@ -57,35 +57,12 @@
     localStorage.setItem('aurum_groq_key',apiKey);
     const kp=document.getElementById('key-prompt');
     if(kp) kp.remove();
-    addClearKeyBtn();
+    
     addMsg('✦ Key saved! Tell me your dream journey — I\'ll craft a bespoke itinerary.','assistant');
     input.focus();
   }
 
-  function addClearKeyBtn(){
-    if(document.getElementById('clear-key-btn')) return;
-    const btn=document.createElement('button');
-    btn.id='clear-key-btn';
-    btn.title='Clear saved API key';
-    btn.innerHTML='🗑 Clear Key';
-    btn.style.cssText='position:static;margin-right:10px;padding:4px 9px;font-size:.6rem;'+
-      'background:rgba(20,32,20,.85);border:1px solid var(--glass-border);'+
-      'color:var(--slate);font-size:.65rem;letter-spacing:.1em;padding:7px 14px;'+
-      'cursor:pointer;transition:all .2s;backdrop-filter:blur(8px);font-family:"DM Sans",sans-serif';
-    btn.addEventListener('mouseenter',()=>{ btn.style.color='var(--gold)'; btn.style.borderColor='var(--gold)'; });
-    btn.addEventListener('mouseleave',()=>{ btn.style.color='var(--slate)'; btn.style.borderColor='var(--glass-border)'; });
-    btn.addEventListener('click',()=>{
-      localStorage.removeItem('aurum_groq_key');
-      apiKey=''; btn.remove();
-      const kp=document.getElementById('key-prompt');
-      if(kp) kp.remove();
-      addMsg('API key cleared. Enter a new key to continue.','assistant');
-      showKeyPrompt();
-    });
-    const hdr=panel.querySelector(".c-head")||closeBtn.parentElement;if(hdr)hdr.insertBefore(btn,closeBtn);
-  }
-
-  const SYS=`You are AurumForest Concierge, the AI travel planner for AurumForest — an ultra-luxury travel company. You craft exquisite, highly personalised travel itineraries.
+    const SYS=`You are AurumForest Concierge, the AI travel planner for AurumForest — an ultra-luxury travel company. You craft exquisite, highly personalised travel itineraries.
 
 When asked for a trip, reply with:
 1. One elegant opening sentence (evocative, aspirational tone)
@@ -101,7 +78,7 @@ Keep the tone refined, evocative, world-class. Suggest only premium experiences.
     panel.classList.toggle('open',open);
     if(open){
       input.focus();
-      if(apiKey) addClearKeyBtn();
+      if(apiKey) 
       else if(!document.getElementById('key-prompt')) showKeyPrompt();
     }
   }
