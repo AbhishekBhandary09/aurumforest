@@ -1,5 +1,5 @@
 /* ── Responsive ── */
-@media(max-width:1024px){
+@media(max-width:1180px){.globe-layout{grid-template-columns:1fr;gap:48px}.globe-right{order:-1}}@media(max-width:1024px){
   .masonry-grid{columns:3}.footer-grid{grid-template-columns:1fr 1fr;gap:40px}
   .stat-grid{grid-template-columns:repeat(2,1fr)}.itinerary-grid{grid-template-columns:1fr}
   .itin-img{position:relative;top:auto}.itin-img img{height:360px}

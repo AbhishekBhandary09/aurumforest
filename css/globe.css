@@ -25,14 +25,4 @@
 .globe-controls-hint { display:flex; align-items:center; gap:20px; margin-top:32px; padding-top:24px; border-top:1px solid var(--glass-border); }
 .hint-item { display:flex; align-items:center; gap:8px; font-size:.7rem; color:var(--slate); }
 .hint-icon { width:28px; height:28px; border:1px solid var(--glass-border); display:flex; align-items:center; justify-content:center; font-size:.8rem; }
-/* Globe canvas — explicit sizing so it always appears */
-#globe-canvas {
-  display: block !important;
-  width: 500px !important;
-  height: 500px !important;
-  max-width: 100%;
-  background: transparent;
-}
-.globe-right {
-  min-height: 520px;
-}
+#globe-canvas{display:block;width:100%;max-width:520px;aspect-ratio:1;background:transparent}.globe-right{min-height:420px;width:100%;overflow:hidden}.globe-left{position:relative;z-index:2}

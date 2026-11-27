@@ -283,7 +283,7 @@ window.addEventListener('load', function initGlobe(){
   cv.addEventListener('touchmove',e=>{e.preventDefault();if(!lT)return;const t=e.touches[0],dx=t.clientX-lT.clientX,dy=t.clientY-lT.clientY;globe.rotation.y+=dx*.005;globe.rotation.x+=dy*.003;pinGrp.rotation.y+=dx*.005;pinGrp.rotation.x+=dy*.003;arcGrp.rotation.y+=dx*.005;arcGrp.rotation.x+=dy*.003;if(cloudMesh){cloudMesh.rotation.y+=dx*.005;cloudMesh.rotation.x+=dy*.003;}if(nightMesh){nightMesh.rotation.y+=dx*.005;nightMesh.rotation.x+=dy*.003;}lT=t;},{passive:false});
   cv.addEventListener('touchend',()=>lT=null);
 
-  function rotateTo(tx,ty){
+  function rotateTo(lat,lon){const tx=(lat*Math.PI/180)*0.75;let ty=-((lon+90)*Math.PI/180);const twoPi=Math.PI*2;while(ty-globe.rotation.y>Math.PI)ty-=twoPi;while(ty-globe.rotation.y<-Math.PI)ty+=twoPi;
     const sx=globe.rotation.x,sy=globe.rotation.y;let t=0;
     (function s(){t+=.04;if(t>1)return;const e=1-Math.pow(1-t,3);
     globe.rotation.x=sx+(tx-sx)*e;globe.rotation.y=sy+(ty-sy)*e;
@@ -300,7 +300,7 @@ window.addEventListener('load', function initGlobe(){
   GD.forEach((d,i)=>{
     const item=document.createElement('div');item.className='globe-dest-item';
     item.innerHTML=`<div class="globe-dest-dot"></div><div class="globe-dest-name">${d.name}</div><div class="globe-dest-coords">${d.lat>0?d.lat+'°N':Math.abs(d.lat)+'°S'} ${d.lon>0?d.lon+'°E':Math.abs(d.lon)+'°W'}</div>`;
-    item.addEventListener('mouseenter',()=>{document.querySelectorAll('.globe-dest-item').forEach(el=>el.classList.remove('active'));item.classList.add('active');pName.textContent=d.name;pCard.classList.add('visible');actPin=i;rotateTo(-(d.lat*Math.PI/180)*.6,-(d.lon*Math.PI/180));});
+    item.addEventListener('mouseenter',()=>{document.querySelectorAll('.globe-dest-item').forEach(el=>el.classList.remove('active'));item.classList.add('active');pName.textContent=d.name;pCard.classList.add('visible');actPin=i;autoR=false;rotateTo(d.lat,d.lon);});
     item.addEventListener('mouseleave',()=>{pCard.classList.remove('visible');actPin=null;});
     dList.appendChild(item);cHover(item);
   });
@@ -311,7 +311,7 @@ window.addEventListener('load', function initGlobe(){
     ScrollTrigger.create({
       trigger:'#globe-section',start:'top bottom',end:'bottom top',
       onUpdate:self=>{
-        if(!drag){
+        if(!drag && actPin===null){
           globe.rotation.y=self.progress*Math.PI*1.6;
           pinGrp.rotation.y=globe.rotation.y;
           arcGrp.rotation.y=globe.rotation.y;
