@@ -4,7 +4,7 @@
 
 A luxury travel landing page with a real-Earth 3D globe, animated flight paths, an AI travel concierge, time-of-day theming, and magnetic UI. Pure HTML/CSS/JS — **no build step, no npm**.
 
-**Live demo:** https://YOUR_USERNAME.github.io/aurumforest/
+**Live demo:** https://AbhishekBhandary09.github.io/aurumforest/
 
 ---
 
@@ -51,7 +51,7 @@ aurumforest/
 ## Run locally
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/aurumforest.git
+git clone https://github.com/AbhishekBhandary09/aurumforest.git
 cd aurumforest
 npx serve .        # or just open index.html
 ```

@@ -81,8 +81,8 @@ git commit -m "feat: initial AurumForest landing page"
 git branch -M main
 
 # 6. Connect to your GitHub repository
-#    (replace YOUR_USERNAME with your actual GitHub username)
-git remote add origin https://github.com/YOUR_USERNAME/aurumforest.git
+#    (replace AbhishekBhandary09 with your actual GitHub username)
+git remote add origin https://github.com/AbhishekBhandary09/aurumforest.git
 
 # 7. Push your code to GitHub
 git push -u origin main
@@ -98,7 +98,7 @@ GitHub Pages serves your HTML file as a real public website — no server needed
 
 ### Step 6 · Enable GitHub Pages
 
-1. Go to your repository on GitHub: `github.com/YOUR_USERNAME/aurumforest`
+1. Go to your repository on GitHub: `github.com/AbhishekBhandary09/aurumforest`
 2. Click **"Settings"** (top tab with the gear icon)
 3. Scroll down to the **"Pages"** section in the left sidebar
 4. Under **"Source"**, select:
@@ -107,7 +107,7 @@ GitHub Pages serves your HTML file as a real public website — no server needed
 5. Click **"Save"**
 
 GitHub will display:
-> ✅ *Your site is live at https://YOUR_USERNAME.github.io/aurumforest/*
+> ✅ *Your site is live at https://AbhishekBhandary09.github.io/aurumforest/*
 
 It usually takes **1–3 minutes** to go live.
 
@@ -117,7 +117,7 @@ It usually takes **1–3 minutes** to go live.
 
 Open your browser and navigate to:
 ```
-https://YOUR_USERNAME.github.io/aurumforest/
+https://AbhishekBhandary09.github.io/aurumforest/
 ```
 
 Your full AurumForest site — globe, AI concierge, golden hour theme, flight arcs, magnetic buttons — is now live on the internet.
@@ -194,7 +194,7 @@ git push
 | A     | @    | 185.199.109.153         |
 | A     | @    | 185.199.110.153         |
 | A     | @    | 185.199.111.153         |
-| CNAME | www  | YOUR_USERNAME.github.io |
+| CNAME | www  | AbhishekBhandary09.github.io |
 
 DNS changes can take up to 48 hours to propagate. GitHub will then auto-issue a free SSL certificate (https://).
 
