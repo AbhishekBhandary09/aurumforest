@@ -1,0 +1,14 @@
+/* ── Time Badge ── */
+#time-badge {
+  position:fixed; bottom:36px; left:36px; z-index:1100;
+  display:flex; align-items:center; gap:8px; padding:6px 14px;
+  background:rgba(26,46,26,0.7); backdrop-filter:blur(12px);
+  border:1px solid var(--glass-border);
+  font-size:.6rem; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--gold-light); pointer-events:none;
+  opacity:0; animation:fadeIn 1s 2s ease forwards;
+  transition:all 1s ease;
+}
+#time-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--gold); box-shadow:0 0 8px var(--gold); animation:badgePulse 2s infinite; }
+@keyframes badgePulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes fadeIn{to{opacity:1}}

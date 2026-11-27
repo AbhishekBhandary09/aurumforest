@@ -1,0 +1,24 @@
+/* ── Footer ── */
+footer { background:var(--forest); border-top:1px solid var(--glass-border); padding:80px 48px 40px; }
+.footer-grid { display:grid; grid-template-columns:1.6fr 1fr 1fr 1.4fr; gap:48px; margin-bottom:64px; }
+.footer-brand-name { font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:300; color:var(--gold-light); letter-spacing:.1em; text-transform:uppercase; margin-bottom:16px; }
+.footer-brand-desc { font-size:.85rem; color:var(--slate); line-height:1.8; font-weight:300; margin-bottom:28px; }
+.social-links { display:flex; gap:12px; }
+.social-link { width:36px; height:36px; border:1px solid var(--glass-border); display:flex; align-items:center; justify-content:center; color:var(--slate); font-size:.8rem; transition:all .3s; text-decoration:none; cursor:none; }
+.social-link:hover { border-color:var(--gold); color:var(--gold); }
+.footer-col-title { font-size:.65rem; letter-spacing:.25em; text-transform:uppercase; color:var(--gold); margin-bottom:24px; }
+.footer-links { list-style:none; display:flex; flex-direction:column; gap:12px; }
+.footer-links a { font-size:.85rem; color:var(--slate); text-decoration:none; transition:color .3s; font-weight:300; cursor:none; }
+.footer-links a:hover { color:var(--gold-light); }
+.newsletter-form { display:flex; border:1px solid var(--glass-border); }
+.newsletter-input { flex:1; background:transparent; border:none; outline:none; padding:14px 18px; color:var(--white); font-family:'DM Sans',sans-serif; font-size:.85rem; cursor:none; }
+.newsletter-input::placeholder { color:var(--slate); }
+.newsletter-btn { background:var(--gold); border:none; padding:14px 20px; color:var(--forest); font-size:.75rem; letter-spacing:.15em; text-transform:uppercase; font-family:'DM Sans',sans-serif; font-weight:500; cursor:none; transition:background .3s; }
+.newsletter-btn:hover { background:var(--gold-light); }
+.newsletter-note { font-size:.72rem; color:var(--slate); margin-top:12px; line-height:1.6; }
+.footer-bottom { border-top:1px solid var(--glass-border); padding-top:32px; display:flex; align-items:center; justify-content:space-between; }
+.footer-copy { font-size:.72rem; color:var(--slate); letter-spacing:.1em; }
+.footer-copy span { color:var(--gold); }
+.footer-bottom-links { display:flex; gap:28px; }
+.footer-bottom-links a { font-size:.72rem; color:var(--slate); text-decoration:none; cursor:none; transition:color .3s; }
+.footer-bottom-links a:hover { color:var(--gold-light); }

@@ -1,0 +1,15 @@
+/* ── Cursor ── */
+#cursor {
+  position:fixed; width:12px; height:12px; background:var(--gold);
+  border-radius:50%; pointer-events:none; z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:width .25s, height .25s, background .25s;
+}
+#cursor-ring {
+  position:fixed; width:36px; height:36px; border:1.5px solid var(--gold);
+  border-radius:50%; pointer-events:none; z-index:9998;
+  transform:translate(-50%,-50%); opacity:.6;
+  transition:width .4s, height .4s, opacity .3s;
+}
+#cursor.ex { width:20px; height:20px; background:var(--gold-light); }
+#cursor-ring.ex { width:56px; height:56px; opacity:.3; }

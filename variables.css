@@ -1,0 +1,33 @@
+/* ─── CSS Variables mutated by Golden Hour engine ─── */
+:root {
+  --forest:       #1a2e1a;
+  --forest-mid:   #243824;
+  --forest-light: #2d4a2d;
+  --forest-pale:  #3d5e3d;
+  --gold:         #c9a84c;
+  --gold-light:   #e2c97e;
+  --gold-pale:    #f0dfa0;
+  --gold-glow:    0.4;
+  --slate:        #8a9ba8;
+  --slate-light:  #b0bec8;
+  --cream:        #f5f0e8;
+  --white:        #ffffff;
+  --glass-bg:     rgba(26,46,26,0.45);
+  --glass-border: rgba(201,168,76,0.2);
+  --card-bg:      rgba(36,56,36,0.7);
+}
+body.mode-dawn {
+  --forest:       #1e2030; --forest-mid:   #252840;
+  --gold:         #e8a055; --gold-light:   #f5c07a;
+  --gold-glow:    0.7;     --glass-border: rgba(232,160,85,0.28);
+}
+body.mode-dusk {
+  --forest:       #1a1428; --forest-mid:   #231830;
+  --gold:         #d4824a; --gold-light:   #e8a870;
+  --gold-glow:    0.85;    --glass-border: rgba(212,130,74,0.3);
+}
+body.mode-night {
+  --forest:       #0d1018; --forest-mid:   #141820;
+  --gold:         #8899cc; --gold-light:   #aabbdd;
+  --gold-glow:    0.25;    --glass-border: rgba(136,153,204,0.18);
+}

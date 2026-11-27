@@ -1,0 +1,26 @@
+/* ── Navbar ── */
+#navbar {
+  position:fixed; top:0; left:0; right:0; z-index:1000;
+  padding:24px 48px; display:flex; align-items:center; justify-content:space-between;
+  transition:all .5s ease;
+}
+#navbar.scrolled {
+  background:rgba(20,32,20,0.82); backdrop-filter:blur(20px);
+  padding:16px 48px; border-bottom:1px solid var(--glass-border);
+}
+.nav-logo { font-family:'Cormorant Garamond',serif; font-size:1.5rem; font-weight:400; color:var(--gold-light); letter-spacing:.12em; text-transform:uppercase; }
+.nav-logo span { color:var(--white); }
+.nav-links { display:flex; gap:36px; list-style:none; }
+.nav-links a { font-size:.75rem; letter-spacing:.2em; text-transform:uppercase; color:var(--slate-light); text-decoration:none; transition:color .3s; position:relative; }
+.nav-links a::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:1px; background:var(--gold); transition:width .3s; }
+.nav-links a:hover { color:var(--gold-light); }
+.nav-links a:hover::after { width:100%; }
+.mag-wrap { display:inline-block; position:relative; cursor:none; }
+.nav-cta {
+  font-size:.7rem; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--forest); background:var(--gold); padding:10px 24px; border:none;
+  font-family:'DM Sans',sans-serif; cursor:none; transition:background .3s;
+}
+.nav-cta:hover { background:var(--gold-light); }
+.nav-mobile-toggle { display:none; flex-direction:column; gap:5px; cursor:none; background:none; border:none; }
+.nav-mobile-toggle span { width:24px; height:1px; background:var(--gold-light); }
