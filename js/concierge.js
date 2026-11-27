@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════
-   FEATURE 6 — AI CONCIERGE (fully working)
+   FEATURE 6 — AI CONCIERGE (Groq Powered)
 ═══════════════════════════════════════════════════ */
 (function concierge(){
   const fab     = document.getElementById('concierge-fab');
@@ -12,21 +12,21 @@
   const history=[];
 
   /* ── API Key management ── */
-  let apiKey = localStorage.getItem('aurum_api_key') || '';
+  let apiKey = localStorage.getItem('aurum_groq_key') || '';
 
   function showKeyPrompt(){
     if(document.getElementById('key-prompt')) return;
     const d=document.createElement('div');
     d.className='msg msg-a'; d.id='key-prompt';
-    d.innerHTML=`<strong style="color:var(--gold-light)">🔑 API Key Required</strong>
+    d.innerHTML=`<strong style="color:var(--gold-light)">🔑 Groq API Key Required</strong>
       <p style="font-size:.8rem;color:var(--slate-light);line-height:1.6;margin:10px 0 12px">
         Enter your free
-        <a href="https://console.anthropic.com/keys" target="_blank"
-           style="color:var(--gold-light);text-decoration:underline">Anthropic API key</a>
+        <a href="https://console.groq.com/keys" target="_blank"
+           style="color:var(--gold-light);text-decoration:underline">Groq API key</a>
         to activate the AI Concierge. Stored only in your browser.
       </p>
       <div style="display:flex;gap:8px">
-        <input id="key-input" type="password" placeholder="sk-ant-…"
+        <input id="key-input" type="password" placeholder="gsk_…"
           style="flex:1;background:rgba(255,255,255,.06);border:1px solid var(--glass-border);
                  outline:none;color:var(--white);font-family:'DM Sans',sans-serif;
                  font-size:.8rem;padding:9px 12px" />
@@ -49,12 +49,12 @@
   function saveKey(){
     const ki=document.getElementById('key-input');
     const val=(ki?.value||'').trim();
-    if(!val.startsWith('sk-ant-') && !val.startsWith('sk-')){
+    if(!val.startsWith('gsk_')){
       if(ki){ ki.style.borderColor='#e05555'; ki.focus(); }
       return;
     }
     apiKey=val;
-    localStorage.setItem('aurum_api_key',apiKey);
+    localStorage.setItem('aurum_groq_key',apiKey);
     const kp=document.getElementById('key-prompt');
     if(kp) kp.remove();
     addClearKeyBtn();
@@ -75,7 +75,7 @@
     btn.addEventListener('mouseenter',()=>{ btn.style.color='var(--gold)'; btn.style.borderColor='var(--gold)'; });
     btn.addEventListener('mouseleave',()=>{ btn.style.color='var(--slate)'; btn.style.borderColor='var(--glass-border)'; });
     btn.addEventListener('click',()=>{
-      localStorage.removeItem('aurum_api_key');
+      localStorage.removeItem('aurum_groq_key');
       apiKey=''; btn.remove();
       const kp=document.getElementById('key-prompt');
       if(kp) kp.remove();
@@ -178,19 +178,19 @@ Keep the tone refined, evocative, world-class. Suggest only premium experiences.
     history.push({role:'user',content:txt});
 
     try{
-      const res=await fetch('https://api.anthropic.com/v1/messages',{
+      const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{
         method:'POST',
         headers:{
           'Content-Type':'application/json',
-          'x-api-key': apiKey,
-          'anthropic-version':'2023-06-01',
-          'anthropic-dangerous-direct-browser-access':'true'
+          'Authorization': `Bearer ${apiKey}`
         },
         body:JSON.stringify({
-          model:'claude-opus-4-5',
+          model:'llama-3.3-70b-versatile',
           max_tokens:1024,
-          system:SYS,
-          messages:history
+          messages:[
+            {role:'system',content:SYS},
+            ...history
+          ]
         })
       });
 
@@ -201,21 +201,21 @@ Keep the tone refined, evocative, world-class. Suggest only premium experiences.
 
       const data=await res.json();
       hideTyping();
-      const reply=data.content?.[0]?.text||'I could not generate a response. Please try again.';
+      const reply=data.choices?.[0]?.message?.content||'I could not generate a response. Please try again.';
       history.push({role:'assistant',content:reply});
       addMsg(renderItinerary(reply),'assistant');
 
     } catch(e){
       hideTyping();
       const isAuth=e.message.includes('401')||e.message.includes('403')||e.message.toLowerCase().includes('invalid');
-      const isNet =e.message.includes('Failed to fetch')||e.message.includes('NetworkError')||e.message.includes('CORS');
+      const isNet =e.message.includes('Failed to fetch')||e.message.includes('NetworkError');
       const msg = isAuth
-        ? '🔑 Invalid API key. Please re-enter your key.'
+        ? '🔑 Invalid Groq API key. Please re-enter your gsk_ key.'
         : isNet
         ? '🌐 Network error — check your internet connection and try again.'
         : `⚠️ ${e.message}`;
       addMsg(msg,'assistant');
-      if(isAuth){ apiKey=''; localStorage.removeItem('aurum_api_key'); showKeyPrompt(); }
+      if(isAuth){ apiKey=''; localStorage.removeItem('aurum_groq_key'); showKeyPrompt(); }
     }
     busy=false;
   }
