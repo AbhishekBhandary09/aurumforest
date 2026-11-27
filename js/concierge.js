@@ -77,7 +77,7 @@ Keep the tone refined, evocative, world-class. Suggest only premium experiences.
     panel.classList.toggle("open",open);
     if(open){
       input.focus();
-      if(!apiKey && !document.getElementById("key-prompt")) showKeyPrompt();
+      
     }
   }
 
@@ -126,7 +126,7 @@ Keep the tone refined, evocative, world-class. Suggest only premium experiences.
       });
       if(d.accommodation) card+=`<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(201,168,76,.15);font-size:.75rem;color:var(--slate)">🏨 ${d.accommodation}</div>`;
       if(d.priceFrom) card+=`<div style="margin-top:6px;font-size:.82rem;color:var(--gold-light);font-weight:500">From ${d.priceFrom}</div>`;
-      card+=`<button onclick="window.aurumToast&&window.aurumToast('✦ Booking request sent for this journey!')"
+      card+=`<button onclick="window.openBookingModal&&window.openBookingModal({title:'${(d.destination||"Bespoke Journey").replace(/['"\\]/g,"")}',location:'${(d.destination||"Global").replace(/['"\\]/g,"")}',price:'${(d.priceFrom||"4500").replace(/['"\\]/g,"")}',summary:'${(d.theme||"Custom AI-crafted luxury itinerary").replace(/['"\\]/g,"")}'})"
         style="margin-top:12px;background:var(--gold);border:none;padding:8px 18px;color:var(--forest);
                font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;font-family:'DM Sans',sans-serif;
                font-weight:500;cursor:pointer;transition:background .2s"
@@ -160,11 +160,7 @@ Keep the tone refined, evocative, world-class. Suggest only premium experiences.
     const txt=input.value.trim();
     if(!txt||busy) return;
 
-    if(!apiKey){
-      if(!open) toggle();
-      showKeyPrompt();
-      return;
-    }
+    
 
     busy=true;
     input.value=""; input.style.height="auto";
@@ -173,7 +169,7 @@ Keep the tone refined, evocative, world-class. Suggest only premium experiences.
     history.push({role:"user",content:txt});
 
     try{
-      const res=await fetch("https://api.groq.com/openai/v1/chat/completions",{
+      let reply="";const srv=await fetch((window.AF_API||"")+"/ai/concierge",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:history})}).catch(()=>null);if(srv&&srv.ok){const sd=await srv.json();reply=sd.reply;}else{if(!apiKey){hideTyping();busy=false;showKeyPrompt();return;}const res=await fetch("https://api.groq.com/openai/v1/chat/completions",{
         method:"POST",
         headers:{
           "Content-Type":"application/json",
@@ -196,7 +192,7 @@ Keep the tone refined, evocative, world-class. Suggest only premium experiences.
 
       const data=await res.json();
       hideTyping();
-      const reply=data.choices?.[0]?.message?.content||"I could not generate a response. Please try again.";
+      reply=data.choices?.[0]?.message?.content||"I could not generate a response. Please try again.";}
       history.push({role:"assistant",content:reply});
       addMsg(renderItinerary(reply),"assistant");
 
