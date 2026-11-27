@@ -161,6 +161,23 @@ Keep the tone refined, evocative, world-class. Suggest only premium experiences.
     return (pre?`<p style="margin-bottom:10px;line-height:1.7">${pre}</p>`:'')+card+(post?`<p style="margin-top:10px;line-height:1.7">${post}</p>`:'');
   }
 
+  async function getGroqModel(){
+    const res = await fetch("https://api.groq.com/openai/v1/models", {
+      headers: { "Authorization": `Bearer ${apiKey}` }
+    });
+    if(!res.ok) return "llama-3.1-8b-instant";
+    const { data = [] } = await res.json();
+    const ids = data.map(m => m.id).filter(id =>
+      !id.includes("whisper") && !id.includes("guard") && !id.includes("tts") && !id.includes("embed")
+    );
+    const preferred = ["llama-3.3-70b", "llama-3.1-70b", "llama3-70b", "qwen", "llama-3.1-8b", "gemma2"];
+    for(const p of preferred){
+      const found = ids.find(id => id.toLowerCase().includes(p));
+      if(found) return found;
+    }
+    return ids[0] || "llama-3.1-8b-instant";
+  }
+
   async function sendMsg(){
     const txt=input.value.trim();
     if(!txt||busy) return;
@@ -185,7 +202,7 @@ Keep the tone refined, evocative, world-class. Suggest only premium experiences.
           'Authorization': `Bearer ${apiKey}`
         },
         body:JSON.stringify({
-          model:'llama-3.3-70b-versatile',
+          model: await getGroqModel(),
           max_tokens:1024,
           messages:[
             {role:'system',content:SYS},
