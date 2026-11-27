@@ -2,22 +2,22 @@
    FEATURE 6 — AI CONCIERGE (Groq Powered)
 ═══════════════════════════════════════════════════ */
 (function concierge(){
-  const fab     = document.getElementById('concierge-fab');
-  const panel   = document.getElementById('concierge-panel');
-  const closeBtn= document.getElementById('c-close');
-  const msgs    = document.getElementById('c-msgs');
-  const input   = document.getElementById('c-input');
-  const send    = document.getElementById('c-send');
+  const fab     = document.getElementById("concierge-fab");
+  const panel   = document.getElementById("concierge-panel");
+  const closeBtn= document.getElementById("c-close");
+  const msgs    = document.getElementById("c-msgs");
+  const input   = document.getElementById("c-input");
+  const send    = document.getElementById("c-send");
   let open=false, busy=false;
   const history=[];
 
   /* ── API Key management ── */
-  let apiKey = localStorage.getItem('aurum_groq_key') || '';
+  let apiKey = localStorage.getItem("aurum_groq_key") || "";
 
   function showKeyPrompt(){
-    if(document.getElementById('key-prompt')) return;
-    const d=document.createElement('div');
-    d.className='msg msg-a'; d.id='key-prompt';
+    if(document.getElementById("key-prompt")) return;
+    const d=document.createElement("div");
+    d.className="msg msg-a"; d.id="key-prompt";
     d.innerHTML=`<strong style="color:var(--gold-light)">🔑 Groq API Key Required</strong>
       <p style="font-size:.8rem;color:var(--slate-light);line-height:1.6;margin:10px 0 12px">
         Enter your free
@@ -37,32 +37,31 @@
         </button>
       </div>
       <p style="font-size:.68rem;color:var(--slate);margin-top:8px">
-        Your key never leaves your device. 
+        Your key never leaves your device.
       </p>`;
     msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight;
-    const ki=document.getElementById('key-input');
-    const ks=document.getElementById('key-save');
-    if(ki) ki.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();saveKey();}});
-    if(ks) ks.addEventListener('click',saveKey);
+    const ki=document.getElementById("key-input");
+    const ks=document.getElementById("key-save");
+    if(ki) ki.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();saveKey();}});
+    if(ks) ks.addEventListener("click",saveKey);
   }
 
   function saveKey(){
-    const ki=document.getElementById('key-input');
-    const val=(ki?.value||'').trim();
-    if(!val.startsWith('gsk_')){
-      if(ki){ ki.style.borderColor='#e05555'; ki.focus(); }
+    const ki=document.getElementById("key-input");
+    const val=(ki?.value||"").trim();
+    if(!val.startsWith("gsk_")){
+      if(ki){ ki.style.borderColor="#e05555"; ki.focus(); }
       return;
     }
     apiKey=val;
-    localStorage.setItem('aurum_groq_key',apiKey);
-    const kp=document.getElementById('key-prompt');
+    localStorage.setItem("aurum_groq_key",apiKey);
+    const kp=document.getElementById("key-prompt");
     if(kp) kp.remove();
-    
-    addMsg('✦ Key saved! Tell me your dream journey — I\'ll craft a bespoke itinerary.','assistant');
+    addMsg("✦ Key saved! Tell me your dream journey — I'll craft a bespoke itinerary.","assistant");
     input.focus();
   }
 
-    const SYS=`You are AurumForest Concierge, the AI travel planner for AurumForest — an ultra-luxury travel company. You craft exquisite, highly personalised travel itineraries.
+  const SYS=`You are AurumForest Concierge, the AI travel planner for AurumForest — an ultra-luxury travel company. You craft exquisite, highly personalised travel itineraries.
 
 When asked for a trip, reply with:
 1. One elegant opening sentence (evocative, aspirational tone)
@@ -75,49 +74,51 @@ Keep the tone refined, evocative, world-class. Suggest only premium experiences.
 
   function toggle(){
     open=!open;
-    panel.classList.toggle('open',open);
+    panel.classList.toggle("open",open);
     if(open){
       input.focus();
-      if(apiKey) 
-      else if(!document.getElementById('key-prompt')) showKeyPrompt();
+      if(!apiKey && !document.getElementById("key-prompt")) showKeyPrompt();
     }
   }
 
-  fab.addEventListener('click',toggle);
-  closeBtn.addEventListener('click',toggle);
-  [fab,closeBtn,send].forEach(cHover);
+  fab.addEventListener("click",toggle);
+  closeBtn.addEventListener("click",toggle);
+  if(typeof cHover==="function") [fab,closeBtn,send].forEach(cHover);
 
-  document.getElementById('c-sugg').querySelectorAll('.sugg-chip').forEach(c=>{
-    c.addEventListener('click',()=>{ input.value=c.textContent; sendMsg(); });
-    cHover(c);
-  });
+  const suggBox=document.getElementById("c-sugg");
+  if(suggBox){
+    suggBox.querySelectorAll(".sugg-chip").forEach(c=>{
+      c.addEventListener("click",()=>{ input.value=c.textContent; sendMsg(); });
+      if(typeof cHover==="function") cHover(c);
+    });
+  }
 
   function addMsg(html,role){
-    const d=document.createElement('div');
-    d.className=`msg msg-${role==='assistant'?'a':'u'}`;
-    d.innerHTML = role==='user'
+    const d=document.createElement("div");
+    d.className=`msg msg-${role==="assistant"?"a":"u"}`;
+    d.innerHTML = role==="user"
       ? `<span style="font-size:.85rem">${html}</span>`
       : html;
     msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight;
   }
 
   function showTyping(){
-    const d=document.createElement('div');
-    d.className='typing'; d.id='typing';
-    d.innerHTML='<div class="td"></div><div class="td"></div><div class="td"></div>';
+    const d=document.createElement("div");
+    d.className="typing"; d.id="typing";
+    d.innerHTML="<div class=\"td\"></div><div class=\"td\"></div><div class=\"td\"></div>";
     msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight;
   }
-  function hideTyping(){ const t=document.getElementById('typing'); if(t) t.remove(); }
+  function hideTyping(){ const t=document.getElementById("typing"); if(t) t.remove(); }
 
   function renderItinerary(text){
     const m=text.match(/```json\n?([\s\S]*?)\n?```/);
-    if(!m) return text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
-    const pre =text.slice(0, text.indexOf('```json')).trim();
-    const post=text.slice(text.indexOf('```json')+m[0].length).trim();
-    let card='';
+    if(!m) return text.replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>").replace(/\n/g,"<br>");
+    const pre =text.slice(0, text.indexOf("```json")).trim();
+    const post=text.slice(text.indexOf("```json")+m[0].length).trim();
+    let card="";
     try{
       const d=JSON.parse(m[1]);
-      card='<div class="itin-card">';
+      card="<div class=\"itin-card\">";
       if(d.destination) card+=`<div style="font-size:.95rem;color:var(--gold-light);font-family:'Cormorant Garamond',serif;margin-bottom:8px">✦ ${d.destination} · ${d.duration}</div>`;
       if(d.theme) card+=`<div style="font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px">${d.theme}</div>`;
       if(d.days) d.days.forEach(dy=>{
@@ -131,11 +132,11 @@ Keep the tone refined, evocative, world-class. Suggest only premium experiences.
                font-weight:500;cursor:pointer;transition:background .2s"
         onmouseover="this.style.background='var(--gold-light)'"
         onmouseout="this.style.background='var(--gold)'">✦ Book This Journey</button>`;
-      card+='</div>';
+      card+="</div>";
     } catch(e){
-      card=`<p style="color:var(--slate-light);font-size:.85rem;line-height:1.7">${text.replace(/\n/g,'<br>')}</p>`;
+      card=`<p style="color:var(--slate-light);font-size:.85rem;line-height:1.7">${text.replace(/\n/g,"<br>")}</p>`;
     }
-    return (pre?`<p style="margin-bottom:10px;line-height:1.7">${pre}</p>`:'')+card+(post?`<p style="margin-top:10px;line-height:1.7">${post}</p>`:'');
+    return (pre?`<p style="margin-bottom:10px;line-height:1.7">${pre}</p>`:"")+card+(post?`<p style="margin-top:10px;line-height:1.7">${post}</p>`:"");
   }
 
   async function getGroqModel(){
@@ -166,23 +167,23 @@ Keep the tone refined, evocative, world-class. Suggest only premium experiences.
     }
 
     busy=true;
-    input.value=''; input.style.height='auto';
-    document.getElementById('c-sugg').style.display='none';
-    addMsg(txt,'user'); showTyping();
-    history.push({role:'user',content:txt});
+    input.value=""; input.style.height="auto";
+    if(suggBox) suggBox.style.display="none";
+    addMsg(txt,"user"); showTyping();
+    history.push({role:"user",content:txt});
 
     try{
-      const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{
-        method:'POST',
+      const res=await fetch("https://api.groq.com/openai/v1/chat/completions",{
+        method:"POST",
         headers:{
-          'Content-Type':'application/json',
-          'Authorization': `Bearer ${apiKey}`
+          "Content-Type":"application/json",
+          "Authorization": `Bearer ${apiKey}`
         },
         body:JSON.stringify({
           model: await getGroqModel(),
           max_tokens:1024,
           messages:[
-            {role:'system',content:SYS},
+            {role:"system",content:SYS},
             ...history
           ]
         })
@@ -195,30 +196,29 @@ Keep the tone refined, evocative, world-class. Suggest only premium experiences.
 
       const data=await res.json();
       hideTyping();
-      const reply=data.choices?.[0]?.message?.content||'I could not generate a response. Please try again.';
-      history.push({role:'assistant',content:reply});
-      addMsg(renderItinerary(reply),'assistant');
+      const reply=data.choices?.[0]?.message?.content||"I could not generate a response. Please try again.";
+      history.push({role:"assistant",content:reply});
+      addMsg(renderItinerary(reply),"assistant");
 
     } catch(e){
       hideTyping();
-      const isAuth=e.message.includes('401')||e.message.includes('403')||e.message.toLowerCase().includes('invalid');
-      const isNet =e.message.includes('Failed to fetch')||e.message.includes('NetworkError');
+      const isAuth=e.message.includes("401")||e.message.includes("403")||e.message.toLowerCase().includes("invalid");
+      const isNet =e.message.includes("Failed to fetch")||e.message.includes("NetworkError");
       const msg = isAuth
-        ? '🔑 Invalid Groq API key. Please re-enter your gsk_ key.'
+        ? "🔑 Invalid Groq API key. Please re-enter your gsk_ key."
         : isNet
-        ? '🌐 Network error — check your internet connection and try again.'
+        ? "🌐 Network error — check your internet connection and try again."
         : `⚠️ ${e.message}`;
-      addMsg(msg,'assistant');
-      if(isAuth){ apiKey=''; localStorage.removeItem('aurum_groq_key'); showKeyPrompt(); }
+      addMsg(msg,"assistant");
+      if(isAuth){ apiKey=""; localStorage.removeItem("aurum_groq_key"); showKeyPrompt(); }
     }
     busy=false;
   }
 
-  send.addEventListener('click',sendMsg);
-  input.addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); sendMsg(); } });
-  input.addEventListener('input',()=>{ input.style.height='auto'; input.style.height=Math.min(input.scrollHeight,80)+'px'; });
+  send.addEventListener("click",sendMsg);
+  input.addEventListener("keydown",e=>{ if(e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); sendMsg(); } });
+  input.addEventListener("input",()=>{ input.style.height="auto"; input.style.height=Math.min(input.scrollHeight,80)+"px"; });
 
-  // Expose to globe click handler
   window.openConciergeWith=function(query){
     if(!open) toggle();
     input.value=query; input.focus();
